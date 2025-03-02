@@ -20,14 +20,16 @@ func main() {
 		port = "8085"
 	}
 
-	database.ConnectDB()
+	database.ConnectTimescaleDB()
 	database.RunMigrations()
+	database.ConnectNeo4j()
 
 	if database.DB == nil {
 		log.Fatal("Unable to connect to database")
 	}
 
 	go scheduler.StartLogCompletionScheduler()
+	go scheduler.StartGraphUpdateScheduler()
 
 	reader := kafka.InitializeKafkaReader()
 	if reader == nil {

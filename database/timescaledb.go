@@ -10,7 +10,7 @@ import (
 
 var DB *sql.DB
 
-func ConnectDB() {
+func ConnectTimescaleDB() {
 	var err error
 	connStr := "host=localhost port=5433 user=user password=password dbname=logs sslmode=disable"
 	DB, err = sql.Open("postgres", connStr)

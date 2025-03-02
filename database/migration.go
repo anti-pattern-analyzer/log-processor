@@ -6,7 +6,7 @@ import (
 
 func RunMigrations() {
 	if DB == nil {
-		log.Fatal("Database connection not initialized. Call ConnectDB() first.")
+		log.Fatal("Database connection not initialized. Call ConnectTimescaleDB() first.")
 	}
 
 	log.Println("Running TimescaleDB Migrations...")
