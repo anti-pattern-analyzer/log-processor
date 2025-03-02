@@ -14,6 +14,7 @@ func MapRowLogRequestToRowLog(dto request.RowLogRequestDTO) models.RowLog {
 		Source:       dto.Source,
 		Destination:  dto.Destination,
 		Method:       dto.Method,
+		Type:         dto.Type,
 		Request:      dto.Request,
 		Response:     dto.Response,
 		TimestampMs:  dto.Timestamp,
@@ -29,6 +30,7 @@ func MapRowLogToStructuredLog(rowLog models.RowLog) models.StructuredLog {
 		Source:            rowLog.Source,
 		Destination:       rowLog.Destination,
 		Method:            rowLog.Method,
+		Type:              rowLog.Type,
 		Request:           rowLog.Request,
 		Response:          rowLog.Response,
 		StartTimestampMs:  rowLog.TimestampMs,
@@ -36,5 +38,6 @@ func MapRowLogToStructuredLog(rowLog models.RowLog) models.StructuredLog {
 		DurationMs:        0,
 		IsComplete:        false,
 		IsDurationUpdated: false,
+		IsProcessed:       false,
 	}
 }

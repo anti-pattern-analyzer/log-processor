@@ -7,6 +7,7 @@ type RowLog struct {
 	Source       string
 	Destination  string
 	Method       string
+	Type         string
 	Request      string
 	Response     *string
 	TimestampMs  uint64

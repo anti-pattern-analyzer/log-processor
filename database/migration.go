@@ -19,6 +19,7 @@ func RunMigrations() {
 			source TEXT NOT NULL,
 			destination TEXT NOT NULL,
 			method TEXT NOT NULL,
+			type TEXT NOT NULL,
 			request TEXT NOT NULL,
 			response TEXT NULL,
 			timestamp_ms BIGINT NOT NULL
@@ -31,13 +32,15 @@ func RunMigrations() {
 			source TEXT NOT NULL,
 			destination TEXT NOT NULL,
 			method TEXT NOT NULL,
+			type TEXT NOT NULL,
 			request TEXT NOT NULL,
 			response TEXT NULL,
 			start_timestamp_ms BIGINT NOT NULL,
 			end_timestamp_ms BIGINT NULL,
 			duration_ms BIGINT DEFAULT 0,
 			is_complete BOOLEAN DEFAULT FALSE,
-			is_duration_updated BOOLEAN DEFAULT FALSE
+			is_duration_updated BOOLEAN DEFAULT FALSE,
+			is_processed BOOLEAN DEFAULT FALSE
 		);`,
 	}
 

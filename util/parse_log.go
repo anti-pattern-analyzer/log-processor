@@ -58,6 +58,7 @@ func ParseLogLine(logLine string) (request.RowLogRequestDTO, error) {
 		Source:       fields["source"],
 		Destination:  fields["destination"],
 		Method:       fields["method"],
+		Type:         fields["type"],
 		Request:      fields["request"],
 		Response:     response,
 	}

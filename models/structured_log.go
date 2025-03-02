@@ -7,6 +7,7 @@ type StructuredLog struct {
 	Source            string
 	Destination       string
 	Method            string
+	Type              string
 	Request           string
 	Response          *string
 	StartTimestampMs  uint64
@@ -14,4 +15,5 @@ type StructuredLog struct {
 	DurationMs        uint64
 	IsComplete        bool
 	IsDurationUpdated bool
+	IsProcessed       bool
 }

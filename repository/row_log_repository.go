@@ -10,8 +10,8 @@ func SaveRowLog(rowLog models.RowLog) error {
 	query := `
 		INSERT INTO raw_logs (
 			trace_id, span_id, parent_span_id, source, destination,
-			method, request, response, timestamp_ms
-		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);
+			method, type, request, response, timestamp_ms
+		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);
 	`
 
 	_, err := database.DB.Exec(query,
@@ -21,6 +21,7 @@ func SaveRowLog(rowLog models.RowLog) error {
 		rowLog.Source,
 		rowLog.Destination,
 		rowLog.Method,
+		rowLog.Type,
 		rowLog.Request,
 		rowLog.Response,
 		rowLog.TimestampMs,

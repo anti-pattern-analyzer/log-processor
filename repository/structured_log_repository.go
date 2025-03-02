@@ -10,8 +10,8 @@ func SaveStructuredLog(structuredLog models.StructuredLog) error {
 	query := `
 		INSERT INTO structured_row_logs (
 			trace_id, span_id, parent_span_id, source, destination,
-			method, request, response, start_timestamp_ms, end_timestamp_ms, duration_ms, is_duration_updated
-		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NULL, 0, FALSE)
+			method, request, response, type, start_timestamp_ms, end_timestamp_ms, duration_ms, is_duration_updated
+		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NULL, 0, FALSE)
 		ON CONFLICT (span_id) 
 		DO UPDATE SET 
 			response = EXCLUDED.response,
@@ -36,6 +36,7 @@ func SaveStructuredLog(structuredLog models.StructuredLog) error {
 		structuredLog.Source,
 		structuredLog.Destination,
 		structuredLog.Method,
+		structuredLog.Type,
 		structuredLog.Request,
 		structuredLog.Response,
 		structuredLog.StartTimestampMs,
