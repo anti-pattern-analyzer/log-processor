@@ -12,7 +12,7 @@ func UpdateGraphForCompletedTraces() error {
 	}
 
 	for _, structuredLog := range logs {
-		err := repository.UpdateGraphForTrace(structuredLog)
+		err := repository.UpdateGraphForTrace(structuredLog, "latest")
 		if err != nil {
 			log.Printf("Error updating graph in Neo4j for span_id %s: %v", structuredLog.SpanID, err)
 			continue

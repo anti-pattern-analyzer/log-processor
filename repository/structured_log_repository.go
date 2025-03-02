@@ -140,3 +140,18 @@ func MarkTraceAsProcessed(spanID string) error {
 	log.Printf("Trace marked as processed: %s", spanID)
 	return nil
 }
+
+func IsLastLogInTrace(traceID string, spanID string) (bool, error) {
+	query := `
+		SELECT COUNT(*) FROM structured_row_logs
+		WHERE trace_id = $1 AND parent_span_id = $2
+	`
+
+	var count int
+	err := database.DB.QueryRow(query, traceID, spanID).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+
+	return count == 0, nil
+}
