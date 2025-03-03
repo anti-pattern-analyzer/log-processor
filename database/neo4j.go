@@ -9,7 +9,7 @@ import (
 var Neo4jDriver neo4j.Driver
 
 func ConnectNeo4j() {
-	neo4jURI := "neo4j+s://1843ef16.databases.neo4j.io"
+	neo4jURI := "bolt://localhost:7687"
 	neo4jUsername := "neo4j"
 	neo4jPassword := "H7t-YFBxjSBWxIFnhO7OaGAjKwk6c-q5wxq_yP95E1M"
 
