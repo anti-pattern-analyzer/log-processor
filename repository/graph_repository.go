@@ -33,7 +33,7 @@ func UpdateGraphForTrace(structuredLog models.StructuredLog, version string) err
 			"source":      structuredLog.Source,
 			"destination": structuredLog.Destination,
 			"method":      structuredLog.Method,
-			"type":        structuredLog.Type,
+			"type":        structuredLog.Type, // GET, POST, PATCH, PUT, or EVENT
 			"duration":    structuredLog.DurationMs,
 			"version":     version,
 		})
@@ -60,11 +60,12 @@ func UpdateGraphForTrace(structuredLog models.StructuredLog, version string) err
 			MATCH (s:Service {name: $source})
 			MATCH (m:Method {name: $method})
 			MERGE (s)-[r:INVOKES]->(m)
-			ON CREATE SET r.calls = 1
+			ON CREATE SET r.calls = 1, r.type = $type
 			ON MATCH SET r.calls = r.calls + 1
 		`, map[string]interface{}{
 			"source": structuredLog.Source,
 			"method": structuredLog.Method,
+			"type":   structuredLog.Type, // GET, POST, PATCH, PUT, EVENT
 		})
 		if err != nil {
 			return nil, err
@@ -75,10 +76,11 @@ func UpdateGraphForTrace(structuredLog models.StructuredLog, version string) err
 			MATCH (m1:Method {name: $method})
 			MATCH (m2:Method {name: $destination})
 			MERGE (m1)-[r:CALLS]->(m2)
-			ON CREATE SET r.calls = 1, r.total_duration = $duration, r.avg_duration = $duration
+			ON CREATE SET r.calls = 1, r.type = $type, r.total_duration = $duration, r.avg_duration = $duration
 			ON MATCH SET r.calls = r.calls + 1, r.total_duration = coalesce(r.total_duration, 0) + $duration, r.avg_duration = r.total_duration / r.calls
 		`, map[string]interface{}{
 			"method":      structuredLog.Method,
+			"type":        structuredLog.Type, // GET, POST, PATCH, PUT, EVENT
 			"destination": structuredLog.Destination,
 			"duration":    structuredLog.DurationMs,
 		})
