@@ -11,7 +11,6 @@ func UpdateGraphForTrace(structuredLog models.StructuredLog, version string) err
 	session := database.Neo4jDriver.NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
 	defer session.Close()
 
-	// If the destination is "null" and it's the last log of the trace, do not insert it into Neo4j
 	if structuredLog.Destination == "null" {
 		isLastLog, err := IsLastLogInTrace(structuredLog.TraceID, structuredLog.SpanID)
 		if err != nil {
@@ -28,7 +27,7 @@ func UpdateGraphForTrace(structuredLog models.StructuredLog, version string) err
 			MERGE (s:Service {name: $source})
 			MERGE (d:Service {name: $destination})
 			MERGE (s)-[r:CALLS]->(d)
-			ON CREATE SET r.calls = 1, r.method = $method, r.type = $type, r.total_duration = $duration, r.avg_duration = $duration
+			ON CREATE SET r.method = $method, r.type = $type, r.calls = 1, r.total_duration = $duration, r.avg_duration = $duration
 			ON MATCH SET r.calls = r.calls + 1, r.total_duration = coalesce(r.total_duration, 0) + $duration, r.avg_duration = r.total_duration / r.calls
 		`, map[string]interface{}{
 			"source":      structuredLog.Source,
@@ -42,13 +41,14 @@ func UpdateGraphForTrace(structuredLog models.StructuredLog, version string) err
 			return nil, err
 		}
 
-		// Create or update Method nodes
+		// Create or update Method nodes (unique per service)
 		_, err = tx.Run(`
-			MERGE (m:Method {name: $method})
+			MERGE (m:Method {name: $method, type: $type})
 			ON CREATE SET m.calls = 1, m.total_duration = $duration, m.avg_duration = $duration
 			ON MATCH SET m.calls = m.calls + 1, m.total_duration = coalesce(m.total_duration, 0) + $duration, m.avg_duration = m.total_duration / m.calls
 		`, map[string]interface{}{
 			"method":   structuredLog.Method,
+			"type":     structuredLog.Type,
 			"duration": structuredLog.DurationMs,
 		})
 		if err != nil {
