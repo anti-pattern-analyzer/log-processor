@@ -1,11 +1,11 @@
 # Use an official Golang image as a builder
-FROM golang:1.23 as builder
+FROM golang:1.20 as builder
 
 WORKDIR /app
 
-# Copy go.mod and go.sum first to leverage caching
-COPY go.mod go.sum ./
-RUN go mod download
+# Copy only go.mod if go.sum is missing
+COPY go.mod ./
+RUN go mod tidy  # Regenerate go.sum if it's missing
 
 # Copy the rest of the source code
 COPY . .
