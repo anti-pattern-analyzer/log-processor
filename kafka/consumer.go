@@ -12,13 +12,9 @@ import (
 )
 
 func InitializeKafkaReader() *kafka.Reader {
-	kafkaURL := os.Getenv("KAFKA_BROKERS")
-	if kafkaURL == "" {
-		kafkaURL = "localhost:29091,localhost:29092"
-	}
-
-	topic := "logs-topic"
-	groupID := "log-processor-group"
+	kafkaURL := getEnv("KAFKA_BROKERS", "localhost:29091,localhost:29092")
+	topic := getEnv("KAFKA_TOPIC", "logs-topic")
+	groupID := getEnv("KAFKA_GROUP", "log-processor-group")
 
 	reader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:        strings.Split(kafkaURL, ","),
@@ -57,4 +53,11 @@ func ConsumeKafkaMessages(reader *kafka.Reader) {
 			log.Printf("Error processing log: %v", err)
 		}
 	}
+}
+
+func getEnv(key, defaultValue string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return defaultValue
 }
