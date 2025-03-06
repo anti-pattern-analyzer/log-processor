@@ -9,7 +9,6 @@
 
 # Go modules
 vendor/
-go.sum
 go.work.sum
 
 # IDE & Editor settings
