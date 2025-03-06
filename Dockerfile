@@ -11,7 +11,7 @@ RUN go mod download
 # Copy the rest of the source code
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o ./checklist ./src
+RUN CGO_ENABLED=0 GOOS=linux go build -o ./go-app ./src
 
 EXPOSE 8085
 
