@@ -21,10 +21,10 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/go-app"
+          IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/log-processor"
           docker build -t $IMAGE_NAME:${{ env.IMAGE_TAG }} .
 
       - name: Push Docker image to GitHub Packages
         run: |
-          IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/go-app"
+          IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/log-processor"
           docker push $IMAGE_NAME:${{ env.IMAGE_TAG }}
