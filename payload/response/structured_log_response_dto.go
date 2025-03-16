@@ -9,6 +9,7 @@ type StructuredLogResponseDTO struct {
 	Method         string  `json:"method"`
 	Type           string  `json:"type"`
 	Request        string  `json:"request"`
+	HttpStatus     int     `json:"http_status_code"`
 	Response       *string `json:"response"`
 	StartTimestamp uint64  `json:"start_timestamp_ms"`
 	EndTimestamp   *uint64 `json:"end_timestamp_ms"`

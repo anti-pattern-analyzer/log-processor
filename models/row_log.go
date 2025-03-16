@@ -9,6 +9,7 @@ type RowLog struct {
 	Method       string
 	Type         string
 	Request      string
+	HttpStatus   int
 	Response     *string
 	TimestampMs  uint64
 }

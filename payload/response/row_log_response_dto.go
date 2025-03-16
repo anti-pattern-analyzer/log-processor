@@ -1,6 +1,6 @@
-package request
+package response
 
-type RowLogRequestDTO struct {
+type RowLogResponseDTO struct {
 	TraceID      string  `json:"trace_id"`
 	SpanID       string  `json:"span_id"`
 	ParentSpanID *string `json:"parent_span_id,omitempty"`

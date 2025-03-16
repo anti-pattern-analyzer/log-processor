@@ -7,5 +7,5 @@ import (
 )
 
 func RegisterRoutes(router *gin.Engine) {
-	router.GET("/traces", controllers.GetTraces)
+	router.GET("/traces", controllers.GetGroupedRowLogs)
 }

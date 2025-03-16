@@ -9,6 +9,7 @@ type StructuredLog struct {
 	Method            string
 	Type              string
 	Request           string
+	HttpStatus        int
 	Response          *string
 	StartTimestampMs  uint64
 	EndTimestampMs    *uint64

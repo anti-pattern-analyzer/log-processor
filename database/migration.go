@@ -21,6 +21,7 @@ func RunMigrations() {
 			method TEXT NOT NULL,
 			type TEXT NOT NULL,
 			request TEXT NOT NULL,
+			http_status INT NOT NULL,
 			response TEXT NULL,
 			timestamp_ms BIGINT NOT NULL
 		);`,
@@ -34,6 +35,7 @@ func RunMigrations() {
 			method TEXT NOT NULL,
 			type TEXT NOT NULL,
 			request TEXT NOT NULL,
+			http_status INT NOT NULL,
 			response TEXT NULL,
 			start_timestamp_ms BIGINT NOT NULL,
 			end_timestamp_ms BIGINT NULL,

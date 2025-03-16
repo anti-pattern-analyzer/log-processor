@@ -40,13 +40,20 @@ func ParseLogLine(logLine string) (request.RowLogRequestDTO, error) {
 		}
 	}
 
+	var httpStatus int
 	var response *string
-	if val, exists := fields["response"]; exists {
-		val = strings.TrimSpace(val)
-		if val == "" || val == "null" {
-			response = nil
-		} else {
-			response = &val
+	if val, exists := fields["http_status"]; exists {
+		parts := strings.SplitN(strings.TrimSpace(val), " response=", 2)
+		statusPart := strings.TrimSpace(parts[0])
+
+		httpStatus, err = strconv.Atoi(statusPart)
+		if err != nil {
+			httpStatus = 500
+		}
+
+		if len(parts) > 1 && strings.TrimSpace(parts[1]) != "" {
+			resp := strings.TrimSpace(parts[1])
+			response = &resp
 		}
 	}
 
@@ -60,6 +67,7 @@ func ParseLogLine(logLine string) (request.RowLogRequestDTO, error) {
 		Method:       fields["method"],
 		Type:         fields["type"],
 		Request:      fields["request"],
+		HttpStatus:   httpStatus,
 		Response:     response,
 	}
 
