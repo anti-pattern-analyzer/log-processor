@@ -56,8 +56,6 @@ The Log Processor’s primary goals:
 
 ## Key Components
 
-![image](https://github.com/user-attachments/assets/c06cf475-baa4-4118-bd8c-2ee4700cf8a7)
-
 ### 1. Kafka Consumer
 - **Language**: Go  
 - **Responsibility**:  
